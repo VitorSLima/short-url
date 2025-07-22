@@ -1,0 +1,18 @@
+meta {
+  name: create account
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{url}}/auth/create-account
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email":"vitor.xlr8@gmail.com",
+    "password":"P@$$w0rd"
+  }
+}

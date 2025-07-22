@@ -1,0 +1,22 @@
+meta {
+  name: update
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{url}}/url/12f72587-a518-40e4-85c9-aa6e936cc382
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "originalUrl": "https://www.youtube.com/watch?v=SQbZt4jceCg&list=RDSQbZt4jceCg&start_radio=1"
+  }
+  
+}
