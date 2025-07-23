@@ -12,9 +12,10 @@ import {
   ClassSerializerInterceptor,
   Patch,
   Delete,
+  UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { UrlService } from './url.service';
-import { OptionalJwtAuthGuard } from 'src/shared/guards/optional-jwt-auth.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { User } from '../../shared/interfaces/User';
@@ -22,10 +23,12 @@ import { User } from '../../shared/interfaces/User';
 @ApiTags('url')
 @Controller()
 export class UrlController {
-  constructor(private readonly urlService: UrlService) {}
+  constructor(
+    private readonly urlService: UrlService,
+    private readonly logger: Logger,
+  ) {}
 
   @Post('short-url')
-  @UseGuards(OptionalJwtAuthGuard)
   @ApiOperation({ summary: 'Encurta uma URL' })
   @ApiBody({
     schema: {
@@ -48,13 +51,41 @@ export class UrlController {
   }
 
   @Get('urls')
-  @UseGuards(OptionalJwtAuthGuard)
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiOperation({ summary: 'Busca todas as URLs do usuário' })
   @ApiResponse({ status: 200, description: 'Uma lista de URLs.' })
   async findByUser(@Req() req: any) {
-    const userId = req.user ? (req.user as User).id : null;
-    return this.urlService.findByUser(userId);
+    try {
+      // Validate user exists and has valid ID
+      if (!req.user || !req.user.id) {
+        this.logger.error('Invalid user or user ID');
+        throw new UnauthorizedException();
+      }
+
+      const userId = (req.user as User).id;
+      return this.urlService.findByUser(userId);
+    } catch (error) {
+      this.logger.error(error);
+      throw new UnauthorizedException();
+    }
+  }
+
+  @Get(':shortCode')
+  @ApiOperation({ summary: 'Redireciona para a URL original' })
+  @ApiResponse({
+    status: 302,
+    description: 'Redirecionamento para a URL original.',
+  })
+  @ApiResponse({ status: 404, description: 'URL não encontrada.' })
+  async redirect(@Param('shortCode') shortCode: string, @Res() res: any) {
+    const originalUrl = await this.urlService.redirectToOriginal(shortCode);
+
+    if (!originalUrl) {
+      throw new NotFoundException('URL não encontrada.');
+    }
+
+    return res.redirect(originalUrl);
   }
 
   @Patch('url/:id')
@@ -89,22 +120,5 @@ export class UrlController {
   async remove(@Param('id') id: string, @Req() req: any) {
     const userId = (req.user as User).id;
     return this.urlService.remove(id, userId);
-  }
-
-  @Get(':shortCode')
-  @ApiOperation({ summary: 'Redireciona para a URL original' })
-  @ApiResponse({
-    status: 302,
-    description: 'Redirecionamento para a URL original.',
-  })
-  @ApiResponse({ status: 404, description: 'URL não encontrada.' })
-  async redirect(@Param('shortCode') shortCode: string, @Res() res: any) {
-    const originalUrl = await this.urlService.redirectToOriginal(shortCode);
-
-    if (!originalUrl) {
-      throw new NotFoundException('URL not found.');
-    }
-
-    return res.redirect(originalUrl);
   }
 }

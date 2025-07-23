@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   ShortenUrlUseCase,
   RedirectToOriginalUseCase,
-  FindByUserUseCase,
+  FindUrlByUserUseCase,
   UpdateUrlUseCase,
   DeleteUrlUseCase,
 } from './use-case';
@@ -12,7 +12,7 @@ export class UrlService {
   constructor(
     private readonly shortenUrlUseCase: ShortenUrlUseCase,
     private readonly redirectToOriginalUseCase: RedirectToOriginalUseCase,
-    private readonly findByUserUseCase: FindByUserUseCase,
+    private readonly findUrlByUserUseCase: FindUrlByUserUseCase,
     private readonly updateUrlUseCase: UpdateUrlUseCase,
     private readonly deleteUrlUseCase: DeleteUrlUseCase,
   ) {}
@@ -26,7 +26,7 @@ export class UrlService {
   }
 
   async findByUser(userId: string) {
-    return await this.findByUserUseCase.execute(userId);
+    return await this.findUrlByUserUseCase.execute(userId);
   }
 
   async update(id: string, originalUrl: string, userId: string) {
