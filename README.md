@@ -30,7 +30,6 @@
 
 Esta é uma **API RESTful para encurtamento de URLs**. O projeto demonstra conhecimentos em arquitetura limpa, boas práticas de desenvolvimento, testes automatizados e tecnologias modernas do ecossistema Node.js.
 
-
 ### Casos de Uso
 
 - **Usuários Anônimos**: Podem criar URLs encurtadas sem necessidade de cadastro
@@ -302,31 +301,15 @@ cd short-code
 npm install
 ```
 
-<<<<<<< Updated upstream
-### 3. Configure as Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto:
-
-```env
-# URL de conexão do PostgreSQL para o Prisma
-DATABASE_URL="postgresql://docker:docker@localhost:5432/short-code?schema=public"
-
-# Segredo para a geração dos tokens JWT
-JWT_SECRET="seu-segredo-super-secreto"
-```
-
-### 4. Inicie o Banco de Dados com Docker
-
-O `docker-compose.yml` irá configurar e iniciar um container com o PostgreSQL.
-=======
 ### 3. Configure o Ambiente
->>>>>>> Stashed changes
+
+Crie um arquivo `.env` na raiz do projeto com as variáveis definidas na seção anterior:
 
 ```bash
 # Copie o arquivo de exemplo (se existir)
 cp .env.example .env
 
-# Ou crie manualmente o arquivo .env com as variáveis acima
+# Ou crie manualmente o arquivo .env com as variáveis configuradas
 ```
 
 ### 4. Inicie o Banco de Dados
@@ -755,9 +738,6 @@ npm run start:dev
 
 ---
 
-<<<<<<< Updated upstream
-_Projeto desenvolvido por [Vitor Lima](https://github.com/vitorslima)._
-=======
 ## Desenvolvido para Teste Técnico
 
 Este projeto foi desenvolvido com foco em demonstrar:
@@ -771,6 +751,3 @@ Este projeto foi desenvolvido com foco em demonstrar:
 **DevOps** com Docker e configuração de ambiente
 
 _Projeto desenvolvido por [Vitor Lima](https://github.com/vitorslima)._
-
----
->>>>>>> Stashed changes
