@@ -1,99 +1,139 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# URL Shortener API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📄 Descrição
 
-## Description
+API RESTful para um encurtador de URLs, desenvolvida como parte de um desafio técnico para uma posição de desenvolvedor backend. O projeto permite que usuários (autenticados ou anônimos) criem, gerenciem e acessem URLs encurtadas.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A arquitetura foi construída utilizando **NestJS**, seguindo princípios de design modular e separação de responsabilidades (controllers, services, use cases, repositories) para garantir um código limpo, escalável e de fácil manutenção.
 
-## Project setup
+## ✨ Features
 
-```bash
-$ npm install
+- **Criação de Contas**: Usuários podem se registrar para gerenciar suas URLs.
+- **Autenticação JWT**: Sistema de login seguro utilizando JSON Web Tokens.
+- **Encurtamento de URLs**:
+    - Usuários autenticados podem criar URLs curtas personalizadas e associadas à sua conta.
+    - Usuários anônimos também podem criar URLs curtas, que não são vinculadas a nenhuma conta.
+- **Gerenciamento de URLs**: Usuários autenticados podem listar, atualizar e deletar as URLs que criaram.
+- **Redirecionamento**: Acesso rápido à URL original através do link encurtado.
+- **Contagem de Cliques**: Monitoramento do número de acessos para cada URL encurtada.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend**: [NestJS](https://nestjs.com/), [TypeScript](https://www.typescriptlang.org/)
+- **Banco de Dados**: [PostgreSQL](https://www.postgresql.org/)
+- **ORM**: [Prisma](https://www.prisma.io/)
+- **Autenticação**: [JWT](https://jwt.io/), [Passport.js](http://www.passportjs.org/)
+- **Containerização**: [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/)
+- **Testes**: [Jest](https://jestjs.io/) (Unitários e E2E)
+- **Linting & Formatting**: [ESLint](https://eslint.org/), [Prettier](https://prettier.io/)
+
+## 📂 Estrutura do Projeto
+
+O projeto é organizado em módulos para separar as principais funcionalidades da aplicação:
+
+```
+src
+├── modules
+│   ├── auth/         # Módulo de autenticação (registro, login)
+│   └── url/          # Módulo de URLs (encurtar, gerenciar, redirecionar)
+└── shared/           # Lógica compartilhada (guards, strategies, database)
 ```
 
-## Compile and run the project
+Dentro de cada módulo, a estrutura segue o padrão:
+- **Controllers**: Recebem as requisições HTTP e retornam as respostas.
+- **Use Cases**: Orquestram a lógica de negócio principal.
+- **Repositories**: Abstraem o acesso e a manipulação de dados do banco.
+- **DTOs**: Definem os objetos de transferência de dados.
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/en/) (v18+)
+- [Docker](https://www.docker.com/get-started) e [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 1. Clone o Repositório
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 ```
 
-## Run tests
+### 2. Instale as Dependências
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+### 3. Configure as Variáveis de Ambiente
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Crie um arquivo `.env` na raiz do projeto, copiando o conteúdo de `.env.example` (se houver) ou usando o modelo abaixo:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+# URL de conexão do PostgreSQL para o Prisma
+DATABASE_URL="postgresql://docker:docker@localhost:5432/short-code?schema=public"
+
+# Segredo para a geração dos tokens JWT
+JWT_SECRET="seu-segredo-super-secreto"
+```
+
+### 4. Inicie o Banco de Dados com Docker
+
+O `docker-compose.yml` irá configurar e iniciar um container com o PostgreSQL.
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+docker-compose up -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 5. Aplique as Migrações do Banco
 
-## Resources
+Este comando irá criar as tabelas no banco de dados com base no schema do Prisma.
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npx prisma migrate dev
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 6. Inicie a Aplicação
 
-## Support
+```bash
+# Modo de desenvolvimento com hot-reload
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+A API estará disponível em `http://localhost:3000`.
 
-## Stay in touch
+## ✅ Executando os Testes
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Para rodar os testes e garantir que tudo está funcionando como esperado:
 
-## License
+```bash
+# Rodar testes unitários
+npm run test
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Rodar testes end-to-end (E2E)
+npm run test:e2e
+```
+
+## Endpoints da API
+
+As requisições de exemplo podem ser encontradas na pasta `/http requests` e podem ser utilizadas com o cliente API [Bruno](https://www.usebruno.com/).
+
+| Método | Rota                  | Descrição                                | Requer Autenticação |
+|--------|-----------------------|------------------------------------------|---------------------|
+| `POST` | `/auth/register`      | Cria uma nova conta de usuário.          | Não                 |
+| `POST` | `/auth/login`         | Autentica um usuário e retorna um token. | Não                 |
+| `POST` | `/url`                | Cria uma nova URL encurtada.             | Opcional            |
+| `GET`  | `/url`                | Lista as URLs do usuário autenticado.    | Sim                 |
+| `PATCH`| `/url/:id`            | Atualiza uma URL existente.              | Sim                 |
+| `DELETE`| `/url/:id`           | Deleta uma URL.                          | Sim                 |
+| `GET`  | `/:shortUrl`          | Redireciona para a URL original.         | Não                 |
+
+---
+
+_Projeto desenvolvido por [Seu Nome](https://github.com/seu-usuario)._
