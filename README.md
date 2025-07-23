@@ -73,7 +73,7 @@ npm install
 
 ### 3. Configure as Variáveis de Ambiente
 
-Crie um arquivo `.env` na raiz do projeto, copiando o conteúdo de `.env.example` (se houver) ou usando o modelo abaixo:
+Crie um arquivo `.env` na raiz do projeto:
 
 ```env
 # URL de conexão do PostgreSQL para o Prisma
@@ -136,4 +136,4 @@ As requisições de exemplo podem ser encontradas na pasta `/http requests` e po
 
 ---
 
-_Projeto desenvolvido por [Seu Nome](https://github.com/seu-usuario)._
+_Projeto desenvolvido por [Vitor Lima](https://github.com/vitorslima)._
