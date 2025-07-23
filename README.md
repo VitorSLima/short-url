@@ -91,7 +91,6 @@ O projeto segue os princípios da **Clean Architecture** e **Domain-Driven Desig
 - **Validação de URLs** com class-validator
 - **Sanitização de dados** de entrada
 - **Controle de acesso** baseado em propriedade
-- **Rate limiting** (implementação futura)
 
 ## Tecnologias
 
@@ -263,35 +262,26 @@ short-code/
 Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ```env
-# Database Configuration
-DATABASE_URL="postgresql://postgres:4bV38FPQwXh6@localhost:5432/url_shortener_db?schema=public"
+DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}?schema=public"
 
-# JWT Configuration
-JWT_SECRET="seu-jwt-secret-super-secreto-aqui"
+# DB CREDENTIALS
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=4bV38FPQwXh6
+POSTGRES_DB=url_shortener_db
+
+# JWT KEY
+JWT_SECRET=SRprIra9nPg2F5vl
 EXPIRES_IN="1d"
 
-# Server Configuration
-PORT=3000
-NODE_ENV="development"
-
-# Logging
-LOG_LEVEL="debug"
 ```
 
-### Configurações de Segurança
-
-**IMPORTANTE**:
-
-- Use um `JWT_SECRET` forte em produção (pelo menos 32 caracteres)
-- Nunca commite o arquivo `.env` no repositório
-- Use diferentes senhas de banco para cada ambiente
 
 ## Instalação e Execução
 
 ### 1. Clone o Repositório
 
 ```bash
-git clone <seu-repositorio>
+git clone https://github.com/VitorSLima/short-url.git
 cd short-code
 ```
 
@@ -301,18 +291,7 @@ cd short-code
 npm install
 ```
 
-### 3. Configure o Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as variáveis definidas na seção anterior:
-
-```bash
-# Copie o arquivo de exemplo (se existir)
-cp .env.example .env
-
-# Ou crie manualmente o arquivo .env com as variáveis configuradas
-```
-
-### 4. Inicie o Banco de Dados
+### 3. Inicie o Banco de Dados
 
 ```bash
 # Inicia o PostgreSQL em container Docker
@@ -322,7 +301,7 @@ docker-compose up -d
 docker ps
 ```
 
-### 5. Execute as Migrações
+### 4. Execute as Migrações
 
 ```bash
 # Aplica as migrações do banco de dados
@@ -332,7 +311,7 @@ npx prisma migrate dev
 npx prisma studio
 ```
 
-### 6. Inicie a Aplicação
+### 5. Inicie a Aplicação
 
 ```bash
 # Modo desenvolvimento (com hot-reload)
@@ -346,7 +325,7 @@ npm run start:prod
 npm run start:debug
 ```
 
-### 7. Verifique a Instalação
+### 6. Verifique a Instalação
 
 - **API**: http://localhost:3000
 - **Documentação Swagger**: http://localhost:3000/api
@@ -694,13 +673,6 @@ npm run start:dev
 - **Validação Eficiente**: Validações rápidas com class-validator
 - **Soft Delete**: Manutenção do histórico sem perda de dados
 
-### Melhorias Futuras
-
-- **Cache Redis**: Para URLs mais acessadas
-- **Rate Limiting**: Proteção contra abuso
-- **CDN**: Para servir redirecionamentos globalmente
-- **Analytics**: Métricas detalhadas de uso
-- **Batch Operations**: Operações em lote para alta performance
 
 ### Métricas de Performance
 
@@ -709,7 +681,6 @@ npm run start:dev
 | Login            | ~100ms      | Incluindo hash bcrypt |
 | Encurtamento     | ~50ms       | Geração + inserção BD |
 | Redirecionamento | ~20ms       | Busca + incremento    |
-| Listagem URLs    | ~30ms       | Com paginação futura  |
 
 ## Segurança
 
@@ -720,7 +691,6 @@ npm run start:dev
 - **Validação de Entrada**: Sanitização de todos os inputs
 - **Controle de Acesso**: Usuários só acessam próprios recursos
 - **CORS**: Configuração adequada para produção
-- **Headers de Segurança**: Helmet.js (implementação futura)
 
 ### Boas Práticas de Segurança
 
@@ -737,17 +707,5 @@ npm run start:dev
 - **Monitore** tentativas de acesso não autorizado
 
 ---
-
-## Desenvolvido para Teste Técnico
-
-Este projeto foi desenvolvido com foco em demonstrar:
-
-**Arquitetura Limpa** e **Princípios SOLID**  
-**Testes Automatizados** com boa cobertura  
-**Documentação Completa** e **API bem estruturada**  
-**Boas Práticas** de desenvolvimento e segurança  
-**Tecnologias Modernas** do ecossistema Node.js  
-**Code Quality** com linting e formatação  
-**DevOps** com Docker e configuração de ambiente
 
 _Projeto desenvolvido por [Vitor Lima](https://github.com/vitorslima)._
