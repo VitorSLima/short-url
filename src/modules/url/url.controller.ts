@@ -19,6 +19,7 @@ import { UrlService } from './url.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { User } from '../../shared/interfaces/User';
+import { OptionalJwtAuthGuard } from '../../shared/guards/optional-jwt.guard';
 
 @ApiTags('url')
 @Controller()
@@ -29,6 +30,7 @@ export class UrlController {
   ) {}
 
   @Post('short-url')
+  @UseGuards(OptionalJwtAuthGuard)
   @ApiOperation({ summary: 'Encurta uma URL' })
   @ApiBody({
     schema: {
@@ -57,7 +59,6 @@ export class UrlController {
   @ApiResponse({ status: 200, description: 'Uma lista de URLs.' })
   async findByUser(@Req() req: any) {
     try {
-      // Validate user exists and has valid ID
       if (!req.user || !req.user.id) {
         this.logger.error('Invalid user or user ID');
         throw new UnauthorizedException();
