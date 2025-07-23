@@ -17,7 +17,13 @@ import {
 } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { User } from '../../shared/interfaces/User';
 import { OptionalJwtAuthGuard } from '../../shared/guards/optional-jwt.guard';
 
@@ -31,6 +37,7 @@ export class UrlController {
 
   @Post('short-url')
   @UseGuards(OptionalJwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Encurta uma URL' })
   @ApiBody({
     schema: {
@@ -55,6 +62,7 @@ export class UrlController {
   @Get('urls')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Busca todas as URLs do usuário' })
   @ApiResponse({ status: 200, description: 'Uma lista de URLs.' })
   async findByUser(@Req() req: any) {
@@ -92,6 +100,7 @@ export class UrlController {
   @Patch('url/:id')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Atualiza uma URL' })
   @ApiBody({
     schema: {
@@ -116,6 +125,7 @@ export class UrlController {
 
   @Delete('url/:id')
   @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Deleta uma URL' })
   @ApiResponse({ status: 204, description: 'URL deletada com sucesso.' })
   async remove(@Param('id') id: string, @Req() req: any) {
