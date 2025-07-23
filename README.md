@@ -327,8 +327,8 @@ npm run start:debug
 
 ### 6. Verifique a Instalação
 
-- **API**: http://localhost:3000
-- **Documentação Swagger**: http://localhost:3000/api
+- **API**: http://localhost
+- **Documentação Swagger**: http://localhost/api
 - **Prisma Studio**: http://localhost:5555 (se executado)
 
 ## Documentação da API
